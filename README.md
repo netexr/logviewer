@@ -9,5 +9,6 @@
 
 ### 使用方式
 ```bash
+# 使用前先修改下pid和日志路径
 ./control.sh [start|stop|reload|restart]"
 ```
