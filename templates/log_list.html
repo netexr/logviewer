@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>系统日志列表</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<p>
+    <a href="/">返回</a>
+</p>
+<h1>系统日志</h1>
+{% if data.sys_logs %}
+<ul>
+    {% for f in data.sys_logs %}
+    <li><a href="/{{ data.app_name }}/sys/{{ f }}/0">{{ f }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>没有找到该应用的系统日志</p>
+{% endif %}
+<h1>应用日志</h1>
+{% if data.app_logs %}
+<ul>
+    {% for f in data.app_logs %}
+    <li><a href="/{{ data.app_name }}/app/{{ f }}/0">{{ f }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>没有找到该应用的应用日志</p>
+{% endif %}
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>

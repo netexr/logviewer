@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>日志查看</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+<p>
+    <a href="/{{ data.app_name }}/">返回</a>
+</p>
+<h1>日志内容</h1>
+<p>
+    <form method="get">
+        <input type="text" name="q" placeholder="输入关键字" value="{{ data.q }}">
+        <input class="btn btn-primary" type="submit" value="过滤">
+    </form>
+</p>
+
+
+<div>
+    <span><a href="/{{ data.app_name }}/{{ data.log_type }}/{{ data.log_name }}/0?q={{ data.q }}">第一页&nbsp;</a></span>
+    <span><a href="/{{ data.app_name }}/{{ data.log_type }}/{{ data.log_name }}/{{ data.prev }}?q={{ data.q }}">上一页&nbsp;</a></span>
+    <span><a href="/{{ data.app_name }}/{{ data.log_type }}/{{ data.log_name }}/{{ data.file_position}}?q={{ data.q }}">下一页&nbsp;</a></span>
+    <span><a href="/{{ data.app_name }}/{{ data.log_type }}/{{ data.log_name }}/{{ data.file_size }}?q={{ data.q }}">最后一页&nbsp;</a></span>
+    <span><button id="truncate" type="button" class="btn btn-danger">清空文件&nbsp;</button></span>
+    <span><a href="/download/{{ data.app_name }}/{{ data.log_type }}/{{ data.log_name }}/" class="btn btn-success">下载日志&nbsp;</a></span>
+
+
+</div>
+<div id="log_content">
+    <p>
+    {% if data.content %}
+    <pre>{{ data.content|safe }}</pre>
+    {% else %}
+    <pre>日志文件为空</pre>
+    {% endif %}
+    </p>
+</div>
+
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+    $('#truncate').click(function() {
+        var confirmd = confirm('真的要清空日志文件吗?');
+        if (! confirmd) {
+            return false;
+        }
+        $.ajax({
+            type: 'GET',
+            url: '/truncate/{{ data.app_name }}/{{ data.log_type }}/{{ data.log_name }}/',
+            success: function(msg) {
+                alert(msg);
+                location.reload();
+            },
+            error: function() {
+                alert('log tuncate failed.')
+            }
+        }); 
+    });
+</script>
+</body>
+</html>
